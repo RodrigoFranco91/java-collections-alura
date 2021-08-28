@@ -1,0 +1,89 @@
+Neste capítulo continuamos a trabahar com uma lista sendo um tipo de atributo de relacionamento. Aprendemos a ordenar uma lista
+imutavel (quando retornamos uma Collections.unmodifiableList(aulas))
+
+
+1) Veja como ficou a classe teste, nela fazemos ordenação da list imutavel (na vdd temos que criar a partir de uma lista imutavel uma
+lista mutavel):
+
+	public class TestaCurso2 {
+
+	    public static void main(String[] args) {
+
+		//Criando objeto Cuso
+		Curso javaColecoes = new Curso("Dominando as coleções do Java", "Paulo SIlveira");
+
+		javaColecoes.adiciona(new Aula("Trabalhando com ArrayList", 21));
+		javaColecoes.adiciona(new Aula("Criando uma aula", 20));
+		javaColecoes.adiciona(new Aula("Modelando as Coleçoes", 24));
+
+		List<Aula> aulasImutaeis = javaColecoes.getAulas();
+		System.out.println(aulasImutaeis);
+
+		//Se eu tentar ordenar a lista de aulas (Collections.sort(aulasImutaeis);), vou ter uma exception, pois estamos retornando uma
+		// Collections.unmodifiableList(aulas), ou seja, uma lista imutavel!
+		//A solução é crimar uma nova lista, só que agora mutavel. Para criar essa nova lista, use o construtor do ArrayList!!!
+		List<Aula> aulasMutaveis = new ArrayList<>(aulasImutaeis);
+		Collections.sort(aulasMutaveis);
+		System.out.println(aulasMutaveis);
+
+		//Como poderei obter o tempo total de um curso? Basta somar o tempo de cada aula!
+		//Ao inves de fazer um for aqui e somar, vou criar um método na classe Aula e depois chamá-lo
+		System.out.println(javaColecoes.getTempoTotal());
+
+		//Chamando o toString da classe Curso
+		System.out.println(javaColecoes);
+	    }
+	}
+	
+	
+2) Somando o tempo total de um Curso, para isso somamos o tempo de todas aulas de um curso. Veja como ficou:
+
+	public class Curso {
+
+	    private String nome;
+	    private String instrutor;
+
+	    //Lembvre-se de sempre usar a interface e não a classe para criar a lista!
+	    private List<Aula> aulas = new LinkedList<>();
+
+	    public Curso(String nome, String instrutor) {
+		this.nome = nome;
+		this.instrutor = instrutor;
+	    }
+
+	    public String getInstrutor() {
+		return instrutor;
+	    }
+
+	    public String getNome() {
+		return nome;
+	    }
+
+	    //A lista retornada não permite que itens sejam adicionados, ou seja, ñ vamos acessar o add desta lista!
+	    public List<Aula> getAulas() {
+		return Collections.unmodifiableList(aulas);
+	    }
+
+	    public void adiciona(Aula aula) {
+		this.aulas.add(aula);
+	    }
+
+	//    public int getTempoTotal() {
+	//        int tempoTotal = 0;
+	//        for (Aula aula : aulas) {
+	//            tempoTotal += aula.getTempo();
+	//        }
+	//        return tempoTotal;
+	//    }
+
+	    public int getTempoTotal() {
+		return this.aulas.stream().mapToInt(Aula::getTempo).sum();
+	    }
+
+	    @Override
+	    public String toString() {
+		return "Curso: " + this.nome + " - Tempo total: " + this.getTempoTotal();
+	    }
+	}
+
+

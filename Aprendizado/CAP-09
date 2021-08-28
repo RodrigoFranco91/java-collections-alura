@@ -1,0 +1,19 @@
+Neste capítulo discutimos qual Collection devemos usar!
+
+
+1) O que é collection? Todas classes/interfaces que implementa/herdam a collection que é uma interface que tem funções básicas como 
+(adicionar elemento, verificar se elemento encontra-se na estrutura, remover elemento e saber quantidade de elementos). Aprendemos
+até agora: Set e List que são interfaces que herdam a interface collection. ArrayList, LinkedList, HashSet são classes que implementam
+interfaces collection.
+
+
+2) Qual usar? Vai depender muito da sua necessidade! Caso esteja em duvida utilize a referencia mais genérica, no caso Collection!
+Pois assim será possivel trocar no futuro sem grandes problemas!
+
+
+        Collection<Aluno> alunos = new HashSet<>();
+        //Toda collection sabe retornar seu tamanho e adicionar item:
+        alunos.size();
+        alunos.add(null);
+        //Mas nem toda collection sabe pegar item via index, isso já é para List!
+        //alunos.get(1);

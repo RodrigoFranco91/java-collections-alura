@@ -1,0 +1,73 @@
+Neste capítulo aprendemos a criar e a manipular Listas do Java, mas agora os itens serão objetos:
+
+
+1) Criando a classe Aula, pois vamos fazer uma lista cujo itens serão objetos do tipo Aula:
+
+	public class Aula implements Comparable<Aula>{
+
+	    private String titulo;
+	    private int tempo;
+
+	    public Aula(String titulo, int tempo)  {
+		this.titulo = titulo;
+		this.tempo = tempo;
+	    }
+
+	    public String getTitulo() {
+		return titulo;
+	    }
+
+	    public int getTempo() {
+		return tempo;
+	    }
+
+	    @Override
+	    public String toString() {
+		return "Aula : " + this.titulo + " - Tempo: " + this.tempo;
+	    }
+
+	    //Ordenando pelo titulo da aula, ou seja, ordem alfabetica do titulo!
+	    @Override
+	    public int compareTo(Aula outraAula) {
+		return this.titulo.compareTo(outraAula.titulo);
+	    }
+	    
+	    
+2) Criando e manipulando listas com itens de aulas:
+
+	public class TestaListaDeAula {
+
+	    public static void main(String[] args) {
+
+		//Criando os itens da lista. Serão do tipo Aula
+		Aula a1 = new Aula("Revistando as ArrayLists", 21);
+		Aula a2 = new Aula("Listas de objetos", 20);
+		Aula a3 = new Aula("Relacionamento de listas e objetos", 15);
+
+		//Adicionando itens na lista
+		ArrayList<Aula> aulas = new ArrayList<>();
+		aulas.add(a1);
+		aulas.add(a2);
+		aulas.add(a3);
+
+		//Desta maneira vamos rodar o toString() de cada item que está na lista
+		//Sobrescrevendo toString() na classe Aula
+		System.out.println(aulas);
+
+		//Ordenando itens da lista
+		//Mas agora os itens da lista é do tipo Aula, e não existe um padrão paro ordernar esse tipo
+		//Temos que definir a ordenação (o que faz uma Aula ser primeiro que a outra), para isso
+		// temos que fazer Aula implementar a interface: Comparable<Aula> e implementar seu metodo
+		Collections.sort(aulas);
+		System.out.println(aulas);
+
+		//Outra maneira de orderar a lista, sem ter que fazer a classe do item implementar a interface Comparable
+		//Ordenando agora pelo tempo de cada aula.
+		Collections.sort(aulas, Comparator.comparing(Aula::getTempo));
+		System.out.println(aulas);
+
+		//Outra maneira de ordernar a lista. Sem usar Collections, pois agora a própria lista se ordena
+		//Ordenando agora pelo tempo de cada aula.
+		aulas.sort(Comparator.comparing(Aula::getTempo));
+	    }
+	}

@@ -1,0 +1,66 @@
+Neste capítulo falamos sobre Outros sets e iterators:
+
+
+1) Aprendemos que set não guarda a ordem de inserção, mas aprendemos que a implementação LinkedHashSet guarda a ordem! Veja:
+
+	public class TesteOutroConjuntos {
+
+	    public static void main(String[] args) {
+
+		//Um Set não guarda a ordem de inserção, mas existe uma implementação que sim
+		//A implementação LinkedHashSet guarda a ordem
+		Set<String> nomes = new LinkedHashSet<>();
+		nomes.add("Rodrigo");
+		nomes.add("Ana");
+		nomes.add("Pedro");
+		nomes.add("Gabriella");
+
+		System.out.println(nomes);
+
+	    }
+	}
+	
+Mas ainda não é possivel consultar via index!
+
+
+2) Outro tipo de set:
+
+        //Existe outra implementação
+        //Ela só aceita objetos que implementa comparable ou via construtor receber um comparator!
+        //Usa a arvore negra por baixo dos panos!
+        Set<String> nomes2 = new TreeSet<>();
+        
+        
+3) Modo mais antigo de percorrer uma lista, conjunto ou qualquer outro tipo de Collection, no caso é usando o Iterator!
+Veja como se faz uso do Iterator:
+
+	public class TestePercorrendoModoAntigo {
+
+	    public static void main(String[] args) {
+
+		//Antes do java 8 tinhamso que percorrer lista, conjunto ou qualquer outro collection utilizando
+		// o iterator. Veja:
+
+		Set<String> alunos = new HashSet<>();
+
+		alunos.add("Rodrigo TUrini");
+		alunos.add("Alberto Souza");
+		alunos.add("Nico Steppat");
+		alunos.add("Sergio Lopes");
+		alunos.add("Renan Saggio");
+
+		//Percorrendo com iterator:
+		Iterator<String> iterator = alunos.iterator();
+		while (iterator.hasNext()){
+		    System.out.println(iterator.next());
+		}
+
+	    }
+	}
+	
+	
+4) Uma estrutura de dados muito antiga chamada Vector! É uma estrutura muito antiga que ninguem mais usa, mas que pode estar presente
+em projetos legados! Embora ela seja Thread Safe, ou seja, permite ser manipulada por várias pessoas/processos ao mesmo tempo,  
+devemos escolher estruruas mais novas!
+
+      Vector<String> vetor = new Vector<>();

@@ -1,0 +1,43 @@
+Nessa capítulo falamos sobre o equals e hashcode:
+
+
+1) O primeiro teste foi verificar se um aluno está matriculado no curso, então fizemos o seguinte código:
+
+	System.out.println(javaColecoes.estaMatriculado(a1));
+	
+E a resposta foi verdadeiro, pois a1 é a referencia de um aluno que está matriculado (esse aluno encontra-se dentro do conjuneto).
+
+
+2) O segundo teste foi comparar dois objetos, pois pense no seguinte cenário: Em outro local da aplicação um professor digita o nome de
+um aluno e quer ver se o mesmo está matriculado, então se cria um novo objeto e buscaremos por ele no conjunto. Veja como ficou:
+
+        Aluno turini = new Aluno("Rodigo Turini", 34672);
+        System.out.println(a1.equals(turini));
+        
+O resultado foi falto, mesmo o nome e matricula do aluno serem igual ao do aluno a1 usado no primeiro exemplo. O motivo disso é que
+por padrão a comparação de dois objetos (método equals()) verifica os endereços de memória e como cada objeto usou um new, logo terá
+endereços diferentes. Para corrigir isso basta sobrescrever o método equals() da classe Aluno e configurar a regra de negócio que
+define dois alunos como iguais, no nosso caso escolhemos que um aluno é igual ao outro se tiver o mesmo nome e a mesma matricula, veja:
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Aluno aluno = (Aluno) o;
+        return numeroMatricula == aluno.numeroMatricula && Objects.equals(nome, aluno.nome);
+    }
+    
+Agora o trecho a seguir dará verdadeiro:
+
+        Aluno turini = new Aluno("Rodigo Turini", 34672);
+        System.out.println(a1.equals(turini));
+    
+        
+3) Problema gerado ao criar o método equals na classe Aluno! Esse problema se dá somente com conjunto! Lembre-se que todo item de
+um conjunto ganha um identificador e por isso motivo a busca em um conjunto é muito rápido e isso atrapalha na hora de comparar dois
+objetos! A solução é implementar o método hashCode() na classe aluno, ficando assim:
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome, numeroMatricula);
+    }

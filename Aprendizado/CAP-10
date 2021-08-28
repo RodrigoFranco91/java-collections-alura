@@ -1,0 +1,85 @@
+Neste capítulo falamos sobre Map. Lembre-se que mapa é uma estrutura de chave e valor, onde chave é unica! Map não é filha e nem
+implementa as interfaces Collection.
+
+
+1) Manipulando uma mapa:
+
+	public class TesteMapa {
+
+	    public static void main(String[] args) {
+
+		//Criando mapa, onde chave será do tipo Integer e tem que ser único, e o valor será do tipo String
+		Map<Integer,String> mapa = new HashMap<>();
+		mapa.put(1,"Rodrigo");
+		mapa.put(2,"Gabriella");
+		mapa.put(3,"Reinaldo");
+		mapa.put(4,"Carlos");
+		mapa.put(5,"Carioca");
+
+		//Pegando elemento via chave
+		System.out.println(mapa.get(1));
+
+		//Percorrendo todos valores do mapa sem chave!
+		for (String valoreMapa : mapa.values()){
+		    System.out.println(valoreMapa);
+		}
+
+		//Percorrendo todos valores do mapa com chave!
+		for (Integer chave : mapa.keySet()){
+		    System.out.println("Chave é: "+ chave + " - Valor é: "+ mapa.get(chave));
+		}
+	    }
+
+	}
+
+
+2) Pense no seguinte cenário: Queremos buscar um Aluno através de sua matrícula, para isso podemos ler o valor da matrícula, 
+percorrer a lista que contem os alunos e verificar se as matrícula batem (são iguais), ou seja, vamos ter que percorrer a lista toda 
+de alunos. Veja o método que faz isso:
+
+	    public Aluno buscaMatriculado(int matricula) {
+		for(Aluno aluno : alunos){
+		    if(aluno.getNumeroMatricula() == matricula){
+		        return aluno;
+		    }
+		}
+		throw new NoSuchElementException("Aluno com matricula " + matricula + " não encontrado!");
+	    }
+	    
+	    
+3) Uma alternativa seria usar a estrutura de dados Map, que é uma estrutura que guarda chave e valor, logo a chave do item poderia 
+ser a matricula e o valor o proprio objeto aluno. Vamos fazer o método matricula() adicionar o aluno também em um mapa. Veja como
+ficará:
+
+	    public void matricula(Aluno aluno) {
+		this.alunos.add(aluno);
+		this.matriculaParaAluno.put(aluno.getNumeroMatricula(), aluno);
+	    }
+	    
+	    
+O atributo matriculaParaAluno é um mapa, veja sua declaração:
+
+	    //Criando um mapa, onde chave será a matricula e o valor será o objeto aluno!
+	    private Map<Integer, Aluno> matriculaParaAluno = new HashMap<>();
+	    
+	    
+4) Agora para pegar um item do mapa temos que passar a chave, que neste caso é a matricula, logo ficará muito mais rapido procurar um
+aluno por matricula, não precisa percorrer um mapa por completo. Veja como fica:
+
+	    public Aluno buscaMatriculadoMapa(int matricula) {
+		if(!matriculaParaAluno.containsKey(matricula)){
+		    throw new NoSuchElementException("Aluno com matricula " + matricula + " não encontrado!");
+		}
+		return matriculaParaAluno.get(matricula);
+	    }
+
+Chamamos esse método da seguinte forma:
+
+		Aluno alunoBusca = javaColecoes.buscaMatriculadoMapa(5617);
+		System.out.println(alunoBusca);
+		
+		
+5) Observações:
+
+	Existe a implementação de mapa Hashtable que é Thread Safe, mas é uma implementação antiga, devemos evitar!
+	Existe a implementação de mapa LinkedHashMap que mantem a ordem de inserção, mas no mapa não faz muito sentido.
